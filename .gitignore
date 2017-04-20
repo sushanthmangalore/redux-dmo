@@ -1,0 +1,7 @@
+.git
+coverage
+lib
+dist
+node_modules
+*.log*
+report
