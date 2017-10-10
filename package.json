@@ -2,6 +2,7 @@
   "name": "redux-demo",
   "version": "1.0.0",
   "main": "./lib/index.js",
+  "license": "ISC",
   "scripts": {
     "build": "babel src --out-dir lib --ignore '**/__tests__/' --copy-files --source-maps",
     "start": "webpack-dev-server -d --inline --port 9080",
