@@ -43,6 +43,6 @@ const rootReducer=combineReducers({
 	orderStatus
 });
 
-export {items, total, orderStatus}
+export {items, total, orderStatus};
 
 export default rootReducer;

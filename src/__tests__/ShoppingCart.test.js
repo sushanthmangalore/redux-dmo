@@ -1,69 +1,83 @@
-'use strict';
 jest.unmock('../ShoppingCart');
-
-import { shallow } from 'enzyme';
+import ShoppingCart, {mapDispatchToProps, mapStateToProps} from '../ShoppingCart';
 import React from 'react';
-import * as actions from '../actions';
-import ShoppingCart, {mapStateToProps, mapDispatchToProps } from '../ShoppingCart';
+import { shallow } from 'enzyme';
+import * as actionsMock from '../actions';
 
-describe("Shopping Cart tests", () => {
+describe("Tests for Shopping Cart component", () => {
 
-	describe("Shopping Cart DOM tests", () => {
+    it("will test the rendering of the component", () => {
+        const tree = shallow(<ShoppingCart.WrappedComponent total={0} orderStatus={{}} actions={actionsMock} 
+items={[{name: "Eggs", price: "$3.00"}]} />);
+        expect(tree).toBeDefined();
+    });
 
-		it("will verify the component", () => {
-			const wrapper = shallow(<ShoppingCart.WrappedComponent items={[{name: "Eggs", price: "$3"}]} />);
-			expect(wrapper).toBeDefined();
-		});
+    it("will test the click of the Add to Cart Button for Milk", () => {
+        const tree = shallow(<ShoppingCart.WrappedComponent total={0} orderStatus={{}} actions={actionsMock} 
+        items={[{name: "Eggs", price: "$3.00"}]} />);
+        tree.instance().addToCart=jest.fn();
+        tree.find('#addToCartMilk').simulate('click');
+        expect(tree.instance().addToCart).toBeCalled();
+    });
 
-		it("will verify the addToCart function for Eggs", () => {
-			const wrapper = shallow(<ShoppingCart.WrappedComponent items={[{name: "Eggs", price: "$3"}]} actions={{addItemToCart:jest.fn(), updateTotal: jest.fn()}} />);
-			wrapper.find("#addToCartEggs").simulate('click');
-			expect(wrapper.instance().props.actions.addItemToCart).toBeCalled();
-			expect(wrapper.instance().props.actions.updateTotal).toBeCalled();
-		});
+    it("will test the click of the Add to Cart Button for Eggs", () => {
+        const tree = shallow(<ShoppingCart.WrappedComponent total={0} orderStatus={{}} actions={actionsMock} 
+        items={[{name: "Eggs", price: "$3.00"}]} />);
+        tree.instance().addToCart=jest.fn();
+        tree.find('#addToCartEggs').simulate('click');
+        expect(tree.instance().addToCart).toBeCalled();
+    });
 
-		it("will verify the addToCart function for Milk", () => {
-			const wrapper = shallow(<ShoppingCart.WrappedComponent items={[{name: "Milk", price: "$4"}]} actions={{addItemToCart:jest.fn(), updateTotal: jest.fn()}} />);
-			wrapper.find("#addToCartMilk").simulate('click');
-			expect(wrapper.instance().props.actions.addItemToCart).toBeCalled();
-			expect(wrapper.instance().props.actions.updateTotal).toBeCalled();
-		});
+    it("will test the logic within addToCart function for Eggs", () => {
+        const tree = shallow(<ShoppingCart.WrappedComponent total={0} orderStatus={{}} actions={actionsMock} 
+        items={[{name: "Eggs", price: "$3.00"}]} />);
+        tree.instance().addToCart("Eggs");
+        expect(actionsMock.addItemToCart).toBeCalled();
+        expect(actionsMock.updateTotal).toBeCalled();
+    });
 
-		it("will verify the clear function", () => {
-			const wrapper = shallow(<ShoppingCart.WrappedComponent items={[{name: "Milk", price: "$4"}]} actions={{clearCart:jest.fn(), clearTotal: jest.fn(), clearStatus: jest.fn()}} />);
-			wrapper.find("#clearCart").simulate('click');
-			expect(wrapper.instance().props.actions.clearCart).toBeCalled();
-			expect(wrapper.instance().props.actions.clearTotal).toBeCalled();
-			expect(wrapper.instance().props.actions.clearStatus).toBeCalled();
-		});
+     it("will test the logic within addToCart function for Milk", () => {
+        const tree = shallow(<ShoppingCart.WrappedComponent total={0} orderStatus={{}} actions={actionsMock} 
+        items={[{name: "Eggs", price: "$3.00"}]} />);
+        tree.instance().addToCart("Milk");
+        expect(tree.instance().props.actions.addItemToCart).toBeCalled();
+        expect(tree.instance().props.actions.updateTotal).toBeCalled();
+        expect(actionsMock.addItemToCart).toBeCalled();
+        expect(actionsMock.updateTotal).toBeCalled();
+    });
+
+     it("will test the logic within displayCartItems function", () => {
+        const tree = shallow(<ShoppingCart.WrappedComponent total={0} orderStatus={{}} actions={actionsMock} 
+        items={[{name: "Eggs", price: "$3.00"}]} />);
+        const result = tree.instance().displayCartItems();
+        expect(result.props.children[0].props.children[0]).toMatch(/Eggs/);
+    });
+
+     it("will test the logic within clear function", () => {
+        const tree = shallow(<ShoppingCart.WrappedComponent total={0} orderStatus={{}} actions={actionsMock} 
+items={[{name: "Eggs", price: "$3.00"}]} />);
+        expect(tree.state('clear')).toBe(false);
+        const result = tree.instance().clear();
+        expect(tree.state('clear')).toBe(true);
+    });
 });
 
-	describe("react-redux tests", () => {
+describe("Tests for mapStateToProps", () => {
 
-		it("will test mapStateToProps", () => {
-			const propsStub = {items: [{name: "Eggs", price: "$3"}], total: 3, orderStatus: {stsCde:0, stsMsg: "Order placed successfully."}};
-			const state={items: [{name: "Eggs", price: "$3"}], total: 3, orderStatus: {stsCde:0, stsMsg: "Order placed successfully."}};
-			const props = mapStateToProps(state);
-			expect(props).toEqual(propsStub);
-		});
+    it("will test the mapStateToProps function", () => {
+        const stateInput = {items: {name: "Eggs", price: "$3.00"}, total:0, orderStatus:null};
+        const propsOutput = mapStateToProps(stateInput);
+        expect(propsOutput).toEqual(stateInput);
+    });
+});
 
-		it("will test mapDispatchToProps", () => {
-			const result = mapDispatchToProps(jest.fn());
-			result.actions.addItemToCart();
-			result.actions.updateTotal();
-			result.actions.clearCart();
-			result.actions.clearTotal();
-			result.actions.clearStatus();
-			result.actions.updateStatus();
-			result.actions.placeOrder();
-			expect(actions.addItemToCart).toBeCalled();
-			expect(actions.updateTotal).toBeCalled();
-			expect(actions.clearCart).toBeCalled();
-			expect(actions.clearTotal).toBeCalled();
-			expect(actions.clearStatus).toBeCalled();
-			expect(actions.updateStatus).toBeCalled();
-			expect(actions.placeOrder).toBeCalled();
-		});
+describe("Tests for mapDispatchToProps", () => {
 
-	});
+    it("will test the rendering of the component", () => {
+        const props = mapDispatchToProps(jest.fn());
+        props.actions.addItemToCart();
+        props.actions.updateTotal();
+        expect(actionsMock.addItemToCart).toBeCalled();
+        expect(actionsMock.updateTotal).toBeCalled();
+    });
 });

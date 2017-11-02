@@ -1,33 +1,7 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import * as actions from './actions';
 import {connect} from 'react-redux';
 import React,{PropTypes} from 'react';
 import { bindActionCreators } from 'redux';
-
-
-
-
-
-
-
-
+import * as actions from './actions';
 
 class ShoppingCart extends React.Component{
 
@@ -36,6 +10,7 @@ class ShoppingCart extends React.Component{
 		this.addToCart=this.addToCart.bind(this);
 		this.clear=this.clear.bind(this);
 		this.displayCartItems=this.displayCartItems.bind(this);
+		this.state={clear: false};
 	}
 
 	addToCart(itemName){
@@ -52,6 +27,7 @@ class ShoppingCart extends React.Component{
 		this.props.actions.clearCart();
 		this.props.actions.clearTotal();
 		this.props.actions.clearStatus();
+		this.setState({clear:true});
 	}
 
 	displayCartItems(){
@@ -96,7 +72,7 @@ class ShoppingCart extends React.Component{
 										<h3 id="totalAmt">Total: {this.props.total}</h3>
 										{this.props.orderStatus && <p>{this.props.orderStatus.stsMsg}</p>}
 										<a id="placeOrder" href="#" className="btn btn-primary" onClick={() => this.props.actions.placeOrder()}>Place Order</a>
-										&nbsp;<a id="clearCart" href="#" className="btn btn-warning" onClick={() => this.clear()}>Clear Cart</a>
+										&nbsp;<a id="clearCart" href="#" className="btn btn-warning" onClick={this.clear}>Clear Cart</a>
 								</div>
 							</div>
 							</div>
@@ -111,23 +87,15 @@ ShoppingCart.propTypes = {
 	orderStatus: PropTypes.object
 };
 
-
-
-
-
 export function mapStateToProps(state){
 	const {items, total, orderStatus} = state;
 	return {items, total, orderStatus};
 }
 
-
-
-
-
-/* istanbul ignore else */
 export function mapDispatchToProps(dispatch){
+	const boundedActions = bindActionCreators(actions, dispatch);
 	return{
-		actions: bindActionCreators(actions, dispatch)
+		actions:boundedActions
 	};
 }
 
