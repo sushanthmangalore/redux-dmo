@@ -1,3 +1,3 @@
 FROM node:8-alpine
-ADD * //
+ADD . //
 ENTRYPOINT ["npm", "start"]
