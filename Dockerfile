@@ -1,5 +1,5 @@
 FROM node:8-alpine
 WORKDIR /home/shopapp
-ADD . /
+ADD . .
 EXPOSE 9080
 ENTRYPOINT ["npm", "start"]
