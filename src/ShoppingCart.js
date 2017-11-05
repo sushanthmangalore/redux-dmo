@@ -52,12 +52,12 @@ class ShoppingCart extends React.Component{
 									<tr>
 										<td>Milk, 1 gallon</td>
 										<td>$4</td>
-										<td><input id="addToCartMilk" type="button" className="btn btn-primary" value="Add to Cart" onClick={() => this.addToCart('Milk')} /></td>
+										<td><input id="addToCartMilk" type="button" className="btn btn-primary" value="Buy" onClick={() => this.addToCart('Milk')} /></td>
 									</tr>
 									<tr>
 										<td>Eggs, 1/2 Dozen</td>
 										<td>$3</td>
-										<td><input id="addToCartEggs" type="button" className="btn btn-primary" value="Add to Cart" onClick={() => this.addToCart('Eggs')} /></td>
+										<td><input id="addToCartEggs" type="button" className="btn btn-primary" value="Buy" onClick={() => this.addToCart('Eggs')} /></td>
 									</tr>
 								</tbody>
 							</table>
@@ -71,7 +71,7 @@ class ShoppingCart extends React.Component{
 								<div className="panel-footer">
 										<h3 id="totalAmt">Total: {this.props.total}</h3>
 										{this.props.orderStatus && <p>{this.props.orderStatus.stsMsg}</p>}
-										<a id="placeOrder" href="#" className="btn btn-primary" onClick={() => this.props.actions.placeOrder()}>Place Order</a>
+										<a id="placeOrder" href="#" className="btn btn-primary" onClick={() => this.props.actions.placeOrder()}>Confirm Order</a>
 										&nbsp;<a id="clearCart" href="#" className="btn btn-warning" onClick={this.clear}>Clear Cart</a>
 								</div>
 							</div>
