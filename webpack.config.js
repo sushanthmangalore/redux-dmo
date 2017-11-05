@@ -13,7 +13,9 @@ const config = {
 	library: 'EntryPoint'
   },
   devServer: {
-    contentBase: path.resolve(__dirname, 'dist')
+    contentBase: path.resolve(__dirname, 'dist'),
+	host: '0.0.0.0',
+    disableHostCheck: true
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
