@@ -71,7 +71,7 @@ class ShoppingCart extends React.Component{
 								<div className="panel-footer">
 										<h3 id="totalAmt">Total: {this.props.total}</h3>
 										{this.props.orderStatus && <p>{this.props.orderStatus.stsMsg}</p>}
-										<a id="placeOrder" href="#" className="btn btn-primary" onClick={() => this.props.actions.placeOrder()}>Purchase</a>
+										<a id="placeOrder" href="#" className="btn btn-primary" onClick={() => this.props.actions.placeOrder()}>Place Order</a>
 										&nbsp;<a id="clearCart" href="#" className="btn btn-warning" onClick={this.clear}>Clear Cart</a>
 								</div>
 							</div>
