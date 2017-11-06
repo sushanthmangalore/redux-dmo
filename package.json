@@ -7,7 +7,6 @@
     "start": "webpack-dev-server -d --inline --port 9080 --host 0.0.0.0",
     "test": "jest --no-cache",
     "eslint": "eslint -f html -o report/eslintReport.html --ext .jsx,.js src",
-    "smoketest": "testcafe 'chrome:headless' smoketest.js",
     "prepublish": "npm run build"
   },
   "jest": {
@@ -78,7 +77,6 @@
     "webpack": "^2.2.1",
     "webpack-dev-middleware": "1.6.1",
     "webpack-dev-server": "^2.4.1",
-    "webpack-hot-middleware": "2.10.0",
-    "testcafe": "*"
+    "webpack-hot-middleware": "2.10.0"
   }
 }
