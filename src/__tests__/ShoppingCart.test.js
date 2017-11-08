@@ -56,7 +56,7 @@ items={[{name: "Eggs", price: "$3.00"}]} />);
      it("will test the logic within clear function", () => {
         const tree = shallow(<ShoppingCart.WrappedComponent total={0} orderStatus={{}} actions={actionsMock} 
 items={[{name: "Eggs", price: "$3.00"}]} />);
-        expect(tree.state('clear')).toBe(true);
+        expect(tree.state('clear')).toBe(false);
         const result = tree.instance().clear();
         expect(tree.state('clear')).toBe(true);
     });
